@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dillys Seafood & Burgers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #140b05;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.25), transparent 40%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 0.3s;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #000;
+            padding: 10px 0;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 50px;
+        }
+
+        .top-bar .address {
+            color: #ccc;
+        }
+
+        .top-bar .phone {
+            color: #ccc;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            letter-spacing: 4px;
+            margin-top: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        .order-btn {
+            background-color: #d4af37;
+            color: #000;
+            padding: 12px 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .order-btn:hover {
+            background-color: #c9a22e;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            background: url('Dillymenu.jpg') center/cover no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+            z-index: 1;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-transform: uppercase;
+            z-index: 10000;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 50px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 40px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid #fff;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: #d4af37;
+            border-color: #d4af37;
+            color: #000;
+        }
+
+        .btn-secondary:hover {
+            background: #c9a22e;
+            border-color: #c9a22e;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: #fff;
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .about p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ccc;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        /* Menu Preview */
+        .menu-preview {
+            background: #000;
+            padding: 60px 20px;
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-preview img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .menu-preview h2 {
+            font-size: 48px;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            padding: 40px;
+            border: 1px solid #333;
+            transition: border-color 0.3s;
+        }
+
+        .menu-item:hover {
+            border-color: #d4af37;
+        }
+
+        .menu-item h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+
+        .menu-item p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 50px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 120px 50px;
+            text-align: center;
+            background: #0f0f0f;
+        }
+
+        .blog h2 {
+            font-size: 48px;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .review-item {
+            padding: 30px;
+            border: 1px solid #ffffff;
+            background: #252525;
+        }
+
+        .review-item a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .review-item a:hover {
+            text-decoration: underline;
+        }
+
+        .contact h2 {
+            font-size: 48px;
+            margin-bottom: 60px;
+            font-weight: 400;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .contact-item h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .contact-item p {
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 40px 50px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            .welcome-text {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="address">5800 Bellaire Blvd Suite 101, Houston, TX 77081</div>
+        <div class="phone">Call Us: (281) 409-8169</div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <div>Dilly's </div>
+            <div class="logo-subtitle">Seafood & Burgers</div>
+        </div>
+        <nav>
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#menu">MENU</a>
+            <a href="#blog">BLOG</a>
+            <a href="#contact">CONTACT</a>
+        </nav>
+        <a href="#contact" class="order-btn">ORDER PICKUP</a>
+    </header>
+
+    <div class="welcome-text">WELCOME Dilly's Seafood & Burgers</div>
+
+    <section class="hero" id="home">
+        <h1>Dilly's</h1>
+        <p>Dilly’s Seafood & Burgers serves up bold, mouthwatering seafood and juicy, handcrafted burgers that keep customers coming back for a true Texas flavor experience.</p>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn-primary">DIRECTIONS</a>
+            <a href="#" class="btn-secondary">ORDER PICKUP</a>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="about" id="about">
+        <h2>Our Story</h2>
+        <p>Dilly’s Seafood & Burgers was built on a simple idea: serve good, honest food that brings people together. What started as a small local dream quickly grew into a community favorite, known for fresh seafood, juicy burgers, and big Texas flavor. From day one, we’ve focused on quality—seasoning every dish with care, cooking everything fresh, and treating every guest like family. Our team takes pride in creating meals that make you slow down, enjoy the moment, and leave feeling satisfied. Today, Dilly’s continues to be a place where great food, friendly service, and hometown pride come together, one plate at a time.</p>
+        <p>Thank you for creating lasting memories with us.</p>
+    </section>
+
+    <section class="menu-preview" id="menu">
+        <img src="./Dillymenu.png" alt="Dilly's Menu" style="display:block; max-width:98vw; height:auto; margin:0 auto 40px;">
+    </section>
+
+    <section class="blog" id="blog">
+        <h2>Customer Reviews</h2>
+        <div class="reviews-container">
+            <div class="review-item">
+                <span class="yelp-review" data-review-id="0VmA_Z1KR-Ln5ZFhx9R0WQ" data-hostname="www.yelp.com">Read <a href="https://www.yelp.com/user_details?userid=DNW0dHK4sW_tVcOPlDYQUw" rel="nofollow noopener">Kimberly V.</a>'s <a href="https://www.yelp.com/biz/dilly-s-seafood-and-burgers-iowa-colony?hrid=0VmA_Z1KR-Ln5ZFhx9R0WQ" rel="nofollow noopener">review</a> of <a href="https://www.yelp.com/biz/JYFHoKSK-RtiTgFEEnyXmQ" rel="nofollow noopener">Dilly’s Seafood & Burgers</a> on <a href="https://www.yelp.com" rel="nofollow noopener">Yelp</a></span>
+            </div>
+            <div class="review-item">
+                <span class="yelp-review" data-review-id="dzm0k4-VsQa4DOHFynP70w" data-hostname="www.yelp.com">Read <a href="https://www.yelp.com/user_details?userid=ZMO1D0_56nydSyuNiWxKzQ" rel="nofollow noopener">David Y.</a>'s <a href="https://www.yelp.com/biz/dilly-s-seafood-and-burgers-iowa-colony?hrid=dzm0k4-VsQa4DOHFynP70w" rel="nofollow noopener">review</a> of <a href="https://www.yelp.com/biz/JYFHoKSK-RtiTgFEEnyXmQ" rel="nofollow noopener">Dilly's Seafood & Burgers</a> on <a href="https://www.yelp.com" rel="nofollow noopener">Yelp</a></span>
+            </div>
+            <div class="review-item">
+                <span class="yelp-review" data-review-id="n8LpIhFgxcy9T78awa8DFw" data-hostname="www.yelp.com">Read <a href="https://www.yelp.com/user_details?userid=ltedcvw-90eW_nTNB1nQig" rel="nofollow noopener">Steven R.</a>'s <a href="https://www.yelp.com/biz/dilly-s-seafood-and-burgers-iowa-colony?hrid=n8LpIhFgxcy9T78awa8DFw" rel="nofollow noopener">review</a> of <a href="https://www.yelp.com/biz/JYFHoKSK-RtiTgFEEnyXmQ" rel="nofollow noopener">Dilly's Seafood & Burgers</a> on <a href="https://www.yelp.com" rel="nofollow noopener">Yelp</a></span>
+            </div>
+            
+            <div class="review-item">
+                <span class="yelp-review" data-review-id="YS6a1Dp_ibyM1psujGOD1A" data-hostname="www.yelp.com">Read <a href="https://www.yelp.com/user_details?userid=NGDCqIXn-3mmNQgtk9igqg" rel="nofollow noopener">Harry B.</a>'s <a href="https://www.yelp.com/biz/dilly-s-seafood-and-burgers-iowa-colony?hrid=YS6a1Dp_ibyM1psujGOD1A" rel="nofollow noopener">review</a> of <a href="https://www.yelp.com/biz/JYFHoKSK-RtiTgFEEnyXmQ" rel="nofollow noopener">Dilly's Seafood & Burgers</a> on <a href="https://www.yelp.com" rel="nofollow noopener">Yelp</a></span>
+            </div>
+            <div class="review-item">
+                <span class="yelp-review" data-review-id="QrgCHxTSzqxdj3o8v3_JmA" data-hostname="www.yelp.com">Read <a href="https://www.yelp.com/user_details?userid=PE14kH0IJ3Gsip9i4bSwaQ" rel="nofollow noopener">Shanda D.</a>'s <a href="https://www.yelp.com/biz/dilly-s-seafood-and-burgers-iowa-colony?hrid=QrgCHxTSzqxdj3o8v3_JmA" rel="nofollow noopener">review</a> of <a href="https://www.yelp.com/biz/JYFHoKSK-RtiTgFEEnyXmQ" rel="nofollow noopener">Dilly's Seafood & Burgers</a> on <a href="https://www.yelp.com" rel="nofollow noopener">Yelp</a></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Visit Us</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <h3>LOCATION</h3>
+                <p>3244 Meridiana Pkwy Ste 200<br>Iowa Colony, TX 77583</p>
+            </div>
+            <div class="contact-item">
+                <h3>HOURS</h3>
+                <p>Monday - Sunday<br>11:00 AM - 9:00 PM</p>
+            </div>
+            <div class="contact-item">
+                <h3>CONTACT</h3>
+                <p>Phone: (281) 409-8169<br>Email: info@phovn21.com</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Dillys. All rights reserved. | Fresh Seafood & Classic Burgers in Rosharon</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mouse spotlight effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', `${x}%`);
+            document.body.style.setProperty('--mouse-y', `${y}%`);
+        });
+    </script>
+
+    <script src="https://www.yelp.com/embed/widgets.js" type="text/javascript" async></script>
+</body>
+</html>
